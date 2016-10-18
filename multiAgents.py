@@ -144,9 +144,8 @@ class MinimaxAgent(MultiAgentSearchAgent):
             return self.evaluationFunction(gameState)
         v = -10e300
         for a in gameState.getLegalActions(0):
-            if a != Directions.STOP:
-                tmp = gameState.generateSuccessor(0, a)
-                v = max(v, self.minValue(tmp, d, 1))
+            tmp = gameState.generateSuccessor(0, a)
+            v = max(v, self.minValue(tmp, d, 1))
         return v
 
     def minValue(self, gameState, d, actor):
@@ -154,12 +153,11 @@ class MinimaxAgent(MultiAgentSearchAgent):
             return self.evaluationFunction(gameState)
         v = 10e300
         for a in gameState.getLegalActions(actor):
-            if a != Directions.STOP:
-                tmp = gameState.generateSuccessor(actor, a)
-                if actor == gameState.getNumAgents() - 1:
-                    v = min(v, self.maxValue(tmp, d + 1))
-                else:
-                    v = min(v, self.minValue(tmp, d, actor + 1))
+            tmp = gameState.generateSuccessor(actor, a)
+            if actor == gameState.getNumAgents() - 1:
+                v = min(v, self.maxValue(tmp, d + 1))
+            else:
+                v = min(v, self.minValue(tmp, d, actor + 1))
         return v
 
 class AlphaBetaAgent(MultiAgentSearchAgent):
