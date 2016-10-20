@@ -131,13 +131,13 @@ class MinimaxAgent(MultiAgentSearchAgent):
         "*** YOUR CODE HERE ***"
         score = -10e100
         best_action = Directions.STOP
-        for action in game_state.getLegalActions(0):
-            next_game_state = game_state.generateSuccessor(0, action)
-            prev_score = score
-            score = max(score, self.min_value(next_game_state, 0, 1))
-            if score > prev_score:
-                best_action = action
-        return best_action
+        next_states = [(action, game_state.generateSuccessor(0, action))
+                for action in game_state.getLegalActions(0)]
+        actions = [(action, self.min_value(next_state, 0, 1))
+            for action, next_state in next_states]
+
+        actions = sorted(actions, key=lambda x:x[1])
+        return actions[-1][0]
 
     def max_value(self, game_state, d):
         if d == self.depth or game_state.isWin() or game_state.isLose():
